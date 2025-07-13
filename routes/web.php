@@ -1,16 +1,10 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
+use App\Models\Job;
 
-Route::get('/', function () {
-    $jobs=[
-        ['title' => 'Software Engineer', 'company' => 'Tech Corp'],
-        ['title' => 'Data Analyst', 'company' => 'Data Solutions'],
-        ['title' => 'Web Developer', 'company' => 'Web Innovations'],
-    ];
-    return view('home', ['jobs' => $jobs]);
-
-});
+Route::get('/', [Job::class, 'index']);
 
 
 Route::get('/about', function () {
@@ -19,4 +13,15 @@ Route::get('/about', function () {
 
 Route::get('/contact', function () {
     return view('contact');
+});
+
+Route::get('/home/{id}', function ($id) {
+    $jobModel = new Job();
+    $job = $jobModel->getJobById($id);
+
+    if ($job) {
+        return view('home', ['job' => $job]);
+    } else {
+        abort(404, 'Job not found');
+    }
 });
