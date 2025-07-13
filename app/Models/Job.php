@@ -2,28 +2,17 @@
 
 namespace   App\Models;
 
-class Job
+use Illuminate\Database\Eloquent\Model;
+
+
+class Job extends Model
 {
-    public function index()
-    {
-        $jobs = [
-            ['id' => 1, 'title' => 'Software Engineer', 'company' => 'Tech Corp'],
-            ['id' => 2, 'title' => 'Data Analyst', 'company' => 'Data Solutions'],
-            ['id' => 3, 'title' => 'Web Developer', 'company' => 'Web Innovations'],
-        ];
+    protected $table = 'jobs_listing';
 
-        return view('home', ['jobs' => $jobs]);
-    }
-    public function getJobById($id)
+    protected $fillable = ['title', 'description', 'company', 'salary'];
+    public function job()
     {
-        $jobs = [
-            1 => ['id' => 1, 'title' => 'Software Engineer', 'company' => 'Tech Corp'],
-            2 => ['id' => 2, 'title' => 'Data Analyst', 'company' => 'Data Solutions'],
-            3 => ['id' => 3, 'title' => 'Web Developer', 'company' => 'Web Innovations'],
-        ];
-
-        return $jobs[$id] ?? null;
+        return $this->hasMany(Job::class);
     }
 }
-
-
+    ?>
