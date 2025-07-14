@@ -16,6 +16,10 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return view('contact');
 });
+Route::get('/job', function () {
+    $jobs = \App\Models\Job::paginate(10);
+    return view('job', ['jobs' => $jobs]);
+});
 
 Route::get('/home/{id}', function ($id) {
     $jobModel = new Job();
@@ -26,4 +30,24 @@ Route::get('/home/{id}', function ($id) {
     } else {
         abort(404, 'Job not found');
     }
+});
+
+Route::get('/jobs/create', function () {
+    return view('jobs.create');
+});
+
+Route::post('/jobs', function () {
+    $job = new Job();
+    $job->title = request('title');
+    $job->description = request('description');
+    $job->company = request('company');
+    $job->salary = request('salary');
+    $job->save();
+
+    return redirect('/job')->with('success', 'Job created successfully!');
+});
+
+Route::get('/jobs/{id}', function ($id) {
+    $job = \App\Models\Job::findOrFail($id);
+    return view('jobs.show', ['job' => $job]);
 });
