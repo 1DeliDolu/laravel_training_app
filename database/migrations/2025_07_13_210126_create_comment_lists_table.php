@@ -20,7 +20,6 @@ return new class extends Migration
             $table->foreignId('job_id')->constrained('jobs_listing')->onDelete('cascade');
             $table->foreignId('comment_id')->constrained('comments')->onDelete('cascade');
             $table->foreignId('comment_list_id')->constrained('comment_lists')->onDelete('cascade');
-            $table->foreignId('comment_list_id')->constrained('comment_lists')->onDelete('cascade');
             $table->timestamps();
         });
     }
