@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    /** @use HasFactory<\Database\Factories\TagFactory> */
     use HasFactory;
+
     protected $fillable = ['name'];
 
     public function jobs()
     {
-        return $this->belongsToMany(Job::class, 'job_tag', 'tag_id', 'jobs_listing_id');
+        return $this->belongsToMany(Job::class, 'job_tags', 'tag_id', 'jobs_listing_id');
     }
 }

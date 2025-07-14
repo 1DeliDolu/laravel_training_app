@@ -4,8 +4,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Job;
 
-Route::get('/', [Job::class, 'index']);
-
+Route::get('/', function () {
+    $jobs = \App\Models\Job::paginate(5);
+    return view('home', ['jobs' => $jobs]);
+});
 
 Route::get('/about', function () {
     return view('about');

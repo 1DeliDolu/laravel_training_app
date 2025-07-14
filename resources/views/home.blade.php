@@ -1,19 +1,21 @@
 <x-layout>
     <x-slot:heading>
-        Home Page
+        Job Listings
     </x-slot:heading>
-<h1>Welcome to the Home Page</h1>
-<p>This is the home page of the Laravel application.</p>
-<p>Here you can find links to other pages like About and Contact.</p>
-<div class="mt-6">
-    <h2 class="text-xl font-semibold">Available Jobs</h2>
-    <ul class="mt-4 space-y-2">
+
+    <div class="space-y-4">
         @foreach ($jobs as $job)
-            <li class="p-4 bg-white shadow rounded-md">
-                <h3 class="text-lg font-medium">{{ $job['title'] }}</h3>
-                <p class="text-gray-600">Company: {{ $job['company'] }}</p>
-            </li>
+            <a class="block rounded-lg border border-gray-200 px-4 py-6" href="/jobs/{{ $job['id'] }}">
+
+                <div class="text-sm font-bold text-blue-500">
+                    {{ $job->company ?? 'No Company' }}
+                </div>
+
+                <div>
+                    <strong>{{ $job['title'] }}</strong> Pays {{ $job['salary'] }} per year.
+                </div>
+            </a>
         @endforeach
-    </ul>
-</div>
+        {{ $jobs->links() }}
+    </div>
 </x-layout>
