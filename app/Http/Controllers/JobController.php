@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 class JobController extends Controller
 {
     /**
+     * Display jobs for the home page.
+     */
+    public function home()
+    {
+        $jobs = Job::paginate(5);
+        return view('home', ['jobs' => $jobs]);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -38,7 +47,7 @@ class JobController extends Controller
 
         $job = Job::create($request->all());
 
-        return redirect('/job')->with('success', 'Job created successfully!');
+        return redirect('/jobs/' . $job->id)->with('success', 'Job created successfully!');
     }
 
     /**
@@ -71,7 +80,7 @@ class JobController extends Controller
 
         $job->update($request->all());
 
-        return redirect('/jobs/' . $job->id . '/show')->with('success', 'Job updated successfully!');
+        return redirect('/jobs/' . $job->id)->with('success', 'Job updated successfully!');
     }
 
     /**

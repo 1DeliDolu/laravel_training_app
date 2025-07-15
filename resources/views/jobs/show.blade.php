@@ -3,6 +3,8 @@
         Job
     </x-slot:heading>
 
+    <x-form-error />
+
     <h2 class="text-lg font-bold">{{ $job->title }}</h2>
 
     <p>
@@ -18,14 +20,16 @@
     </p>
 
     <div class="mt-6 flex gap-4">
-        <a class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-            href="/jobs/{{ $job->id }}/edit">Edit Job</a>
-        <form action="/jobs/{{ $job->id }}" method="POST" onsubmit="return confirm('Emin misiniz? Bu işi silmek istediğinizden emin misunuz?');">
+        <x-button href="/jobs/{{ $job->id }}/edit" variant="primary">
+            Edit Job
+        </x-button>
+        <form action="/jobs/{{ $job->id }}" method="POST"
+            onsubmit="return confirm('Emin misiniz? Bu işi silmek istediğinizden emin misunuz?');">
             @csrf
             @method('DELETE')
-            <button type="submit" class="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700">
-            Delete
-            </button>
+            <x-button type="submit" variant="danger">
+                Delete
+            </x-button>
         </form>
     </div>
 </x-layout>

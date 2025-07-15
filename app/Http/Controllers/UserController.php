@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::paginate(10);
-        return view('users.index', compact('users'));
+        return view('auth.index', compact('users'));
     }
 
     /**
@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('auth.create');
     }
 
     /**
@@ -42,7 +42,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('users.index')->with('success', 'User created successfully!');
+        return redirect()->route('auth.index')->with('success', 'User created successfully!');
     }
 
     /**
@@ -50,7 +50,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        return view('auth.show', compact('user'));
     }
 
     /**
@@ -58,7 +58,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        return view('auth.edit', compact('user'));
     }
 
     /**
@@ -73,7 +73,7 @@ class UserController extends Controller
 
         $user->update($request->only(['name', 'email']));
 
-        return redirect()->route('users.show', $user)->with('success', 'User updated successfully!');
+        return redirect()->route('auth.show', $user)->with('success', 'User updated successfully!');
     }
 
     /**
@@ -83,6 +83,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'User deleted successfully!');
+        return redirect()->route('auth.index')->with('success', 'User deleted successfully!');
     }
 }

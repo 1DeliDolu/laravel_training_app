@@ -3,47 +3,39 @@
         Create New Job
     </x-slot:heading>
 
+    {{-- Example usage of the form-error component --}}
+    {{-- Replace 'field_name' with the actual field you want to show errors for --}}
+    <x-form-error name="field_name" />
+
     <form class="mx-auto max-w-md" method="POST" action="/jobs">
         @csrf
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700" for="title">Job Title</label>
-            <input
-                class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                id="title" name="title" type="text" required>
-        </div>
+        <x-form-field name="title" type="text" label="Job Title" required placeholder="Enter job title" />
+
+        <x-form-field name="description" type="textarea" label="Description" rows="4"
+            placeholder="Enter job description" />
+
+        <x-form-field name="company" type="text" label="Company" required placeholder="Enter company name" />
 
         <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700" for="description">Description</label>
-            <textarea
-                class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                id="description" name="description" rows="4"></textarea>
-        </div>
-
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700" for="company">Company</label>
-            <input
-                class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                id="company" name="company" type="text" required>
-        </div>
-
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700" for="salary">Salary (USD)</label>
+            <x-form-label for="salary">Salary (USD)</x-form-label>
             <div class="relative mt-1">
-            <input
-                class="block w-full rounded-md border border-gray-300 px-3 py-2 pr-12 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                id="salary" name="salary" type="number" required min="0" step="0.01">
-            <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">$</span>
+                <x-form-input class="pr-12" name="salary" type="number" required min="0" step="0.01" />
+                <span
+                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">$</span>
             </div>
+            @error('salary')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="flex items-center justify-between">
-            <button
-                class="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
-                type="submit">
+            <x-button type="submit" variant="primary">
                 Create Job
-            </button>
-            <a class="text-blue-500 hover:text-blue-700" href="/">Cancel</a>
+            </x-button>
+            <x-button href="/jobs" variant="link">
+                Cancel
+            </x-button>
         </div>
     </form>
 </x-layout>

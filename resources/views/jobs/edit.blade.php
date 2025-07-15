@@ -3,45 +3,30 @@
         Edit Job
     </x-slot:heading>
 
+    {{-- Edit form should use PUT method, not PATCH --}}
     <form class="mx-auto max-w-md" method="POST" action="/jobs/{{ $job->id }}">
         @csrf
-        @method('PATCH')
+        @method('PUT')
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700" for="title">Job Title</label>
-            <input
-                class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                id="title" name="title" type="text" value="{{ $job->title }}" required>
-        </div>
+        <x-form-field name="title" type="text" value="{{ $job->title }}" label="Job Title" required
+            placeholder="Enter job title" />
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700" for="description">Description</label>
-            <textarea
-                class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                id="description" name="description" rows="4">{{ $job->description }}</textarea>
-        </div>
+        <x-form-field name="description" type="textarea" value="{{ $job->description }}" label="Description"
+            rows="4" placeholder="Enter job description" />
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700" for="company">Company</label>
-            <input
-                class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                id="company" name="company" type="text" value="{{ $job->company }}" required>
-        </div>
+        <x-form-field name="company" type="text" value="{{ $job->company }}" label="Company" required
+            placeholder="Enter company name" />
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700" for="salary">Salary</label>
-            <input
-                class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                id="salary" name="salary" type="text" value="{{ $job->salary }}" required>
-        </div>
+        <x-form-field name="salary" type="number" value="{{ $job->salary }}" label="Salary (USD)" required
+            min="0" step="0.01" placeholder="Enter salary amount" />
 
         <div class="flex items-center justify-between">
-            <button
-                class="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
-                type="submit">
+            <x-button type="submit" variant="primary">
                 Update Job
-            </button>
-            <a class="text-blue-500 hover:text-blue-700" href="/jobs/{{ $job->id }}/show">Cancel</a>
+            </x-button>
+            <x-button href="/jobs/{{ $job->id }}" variant="link">
+                Cancel
+            </x-button>
         </div>
     </form>
 </x-layout>
