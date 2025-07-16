@@ -68,7 +68,11 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
-        return view('jobs.show', compact('job'));
+        return view('jobs.show', [
+            'job' => $job,
+            'original_description' => $job->description,
+            'translated_description' => $job->translated_description,
+        ]);
     }
 
     /**
@@ -120,7 +124,7 @@ class JobController extends Controller
         $job = Job::first() ?? Job::factory()->create();
 
         // Send email from the currently logged-in user
-        Mail::to(Auth::user()->email)->send(new \App\Mail\JobPosted($job));
+        Mail::to(Auth::user()->email)->send(new \App\Mail\JobPosted($job, Auth::user()->email));
 
         return 'Email sent from ' . Auth::user()->email . ' successfully!';
     }
