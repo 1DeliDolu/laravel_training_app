@@ -8,6 +8,8 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Job;
 
 class JobPosted extends Mailable
 {
@@ -16,7 +18,7 @@ class JobPosted extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(protected Job $job)
     {
         //
     }
@@ -28,8 +30,8 @@ class JobPosted extends Mailable
     {
         return new Envelope(
             subject: 'Job Posted',
-            from:'admin@laracast.com',
-            replyTo: ['noreply@laracast.com']
+            from: Auth::user()->email ?? 'mustafa.ozdemir1408@gmail.com',
+            replyTo: [Auth::user()->email ?? 'max.markus.program@gmail.com']
         );
     }
 
@@ -40,6 +42,9 @@ class JobPosted extends Mailable
     {
         return new Content(
             view: 'mail.job-posted',
+            with: [
+                'job' => $this->job,
+            ]
         );
     }
 

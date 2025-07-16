@@ -136,10 +136,4 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
 });
 
 // Mail Routes
-Route::get('test', function () {
-    \Illuminate\Support\Facades\Mail::to('hasanhodaman55@gmail.com')->send(
-        new \App\Mail\JobPosted()
-    );
-
-    return 'Done';
-});
+Route::get('test', [JobController::class, 'test'])->name('test.email');

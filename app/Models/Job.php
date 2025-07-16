@@ -10,10 +10,10 @@ class Job extends Model
 
     protected $table = 'jobs_listing';
 
-    protected $fillable = ['title', 'description', 'company', 'salary'];
+    protected $fillable = ['title', 'description', 'company', 'salary', 'employer_id'];
     public function employer()
     {
-        return $this->belongsTo(Beruf::class);
+        return $this->belongsTo(Employer::class);
     }
     public function tags()
     {

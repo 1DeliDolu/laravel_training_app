@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
@@ -36,18 +38,25 @@ class JobController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
-        $request->validate([
+        request()->validate([
             'title' => ['required', 'min:3'],
-            'description' => ['required'],
-            'company' => ['required'],
             'salary' => ['required']
         ]);
 
-        $job = Job::create($request->all());
+        $job = Job::create([
+            'title' => request('title'),
+            'salary' => request('salary'),
+            'employer_id' => 1
+        ]);
 
-        return redirect('/jobs/' . $job->id)->with('success', 'Job created successfully!');
+        // Send email notification to the authenticated user who created the job
+        if (Auth::check()) {
+            Mail::to(Auth::user()->email)->send(new \App\Mail\JobPosted($job));
+        }
+
+        return redirect('/jobs')->with('success', 'Job created successfully and email notification sent!');
     }
 
     /**
@@ -91,5 +100,24 @@ class JobController extends Controller
         $job->delete();
 
         return redirect('/job')->with('success', 'Job deleted successfully!');
+    }
+
+    /**
+     * Test method for sending job posted emails.
+     */
+    public function test()
+    {
+        // Check if user is authenticated
+        if (!Auth::check()) {
+            return 'Please login first to send email.';
+        }
+
+        // Get the first job or create one for testing
+        $job = Job::first() ?? Job::factory()->create();
+
+        // Send email from the currently logged-in user
+        Mail::to(Auth::user()->email)->send(new \App\Mail\JobPosted($job));
+
+        return 'Email sent from ' . Auth::user()->email . ' successfully!';
     }
 }
