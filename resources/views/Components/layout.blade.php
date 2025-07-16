@@ -49,47 +49,145 @@
                                     @auth
                                         <div>
                                             <button
-                                                class="focus:outline-hidden relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800"
+                                                class="focus:outline-hidden relative flex max-w-xs items-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-sm shadow-md ring-2 ring-white ring-opacity-20 transition-all duration-200 hover:scale-105 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800"
                                                 id="user-menu-button" type="button" aria-expanded="false"
                                                 aria-haspopup="true">
                                                 <span class="absolute -inset-1.5"></span>
                                                 <span class="sr-only">Open user menu</span>
-                                                <img class="size-8 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                    alt="" />
+                                                <div
+                                                    class="flex size-8 items-center justify-center rounded-full bg-white text-lg">
+                                                    <span>
+                                                        @php
+                                                            $userEmojis = [
+                                                                '👤',
+                                                                '😊',
+                                                                '🚀',
+                                                                '💼',
+                                                                '🌟',
+                                                                '🎯',
+                                                                '💡',
+                                                                '🔥',
+                                                                '⚡',
+                                                                '🎨',
+                                                                '🌈',
+                                                                '🦄',
+                                                                '🎭',
+                                                                '🎪',
+                                                                '🎮',
+                                                                '🎲',
+                                                                '🎯',
+                                                                '🔮',
+                                                                '🎊',
+                                                                '🎉',
+                                                            ];
+                                                            $userEmail = Auth::user()->email ?? 'user@example.com';
+                                                            $emojiIndex = abs(crc32($userEmail)) % count($userEmojis);
+                                                            echo $userEmojis[$emojiIndex];
+                                                        @endphp
+                                                    </span>
+                                                </div>
                                             </button>
                                         </div>
                                         <!-- Dropdown menu -->
-                                        <div class="invisible absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 opacity-0 shadow-lg ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out focus:outline-none group-hover:visible group-hover:opacity-100"
+                                        <div class="invisible absolute right-0 z-50 mt-3 w-64 origin-top-right scale-95 transform rounded-2xl bg-white py-1 opacity-0 shadow-2xl ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-out group-hover:visible group-hover:scale-100 group-hover:opacity-100"
                                             id="user-menu" role="menu" aria-orientation="vertical"
                                             aria-labelledby="user-menu-button" tabindex="-1">
-                                            <div class="flex items-center border-b border-gray-200 px-4 py-3">
-                                                <img class="size-10 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                    alt="" />
-                                                <div class="ml-3">
-                                                    <div class="text-base font-medium text-gray-900">
-                                                        {{ Auth::user()->name ?? 'User' }}</div>
-                                                    <div class="text-sm font-medium text-gray-500">
-                                                        {{ Auth::user()->email ?? 'user@example.com' }}</div>
+                                            <!-- User Info Header -->
+                                            <div class="bg-gradient-to-r from-blue-50 to-purple-50 px-4 py-4">
+                                                <div class="flex items-center">
+                                                    <div
+                                                        class="flex size-12 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-xl shadow-md">
+                                                        <span class="text-white">
+                                                            @php
+                                                                $userEmojis = [
+                                                                    '👤',
+                                                                    '😊',
+                                                                    '🚀',
+                                                                    '💼',
+                                                                    '🌟',
+                                                                    '🎯',
+                                                                    '💡',
+                                                                    '🔥',
+                                                                    '⚡',
+                                                                    '🎨',
+                                                                    '🌈',
+                                                                    '🦄',
+                                                                    '🎭',
+                                                                    '🎪',
+                                                                    '🎮',
+                                                                    '🎲',
+                                                                    '🎯',
+                                                                    '🔮',
+                                                                    '🎊',
+                                                                    '🎉',
+                                                                ];
+                                                                $userEmail = Auth::user()->email ?? 'user@example.com';
+                                                                $emojiIndex =
+                                                                    abs(crc32($userEmail)) % count($userEmojis);
+                                                                echo $userEmojis[$emojiIndex];
+                                                            @endphp
+                                                        </span>
+                                                    </div>
+                                                    <div class="ml-3">
+                                                        <div class="text-sm font-semibold text-gray-900">
+                                                            {{ Auth::user()->full_name ?? (Auth::user()->name ?? 'User') }}
+                                                        </div>
+                                                        <div class="text-xs text-gray-500">
+                                                            {{ Auth::user()->email ?? 'user@example.com' }}
+                                                        </div>
+                                                        @if (Auth::user()->is_admin ?? false)
+                                                            <div class="mt-1">
+                                                                <span
+                                                                    class="inline-flex items-center rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-800">
+                                                                    👑 Admin
+                                                                </span>
+                                                            </div>
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                href="#" role="menuitem" tabindex="-1">Your Profile</a>
-                                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                href="/profile" role="menuitem" tabindex="-1">Settings</a>
-                                            <form class="block" method="POST" action="{{ route('logout') }}">
-                                                @csrf
-                                                <button
-                                                    class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-                                                    type="submit" role="menuitem" tabindex="-1">Sign out</button>
-                                            </form>
+
+                                            <!-- Menu Items -->
+                                            <div class="py-1">
+                                                <a class="group flex items-center px-4 py-3 text-sm text-gray-700 transition-colors duration-150 hover:bg-gray-50"
+                                                    href="#" role="menuitem" tabindex="-1">
+                                                    <span class="mr-3">👤</span>
+                                                    <span>Your Profile</span>
+                                                </a>
+                                                <a class="group flex items-center px-4 py-3 text-sm text-gray-700 transition-colors duration-150 hover:bg-gray-50"
+                                                    href="/messages" role="menuitem" tabindex="-1">
+                                                    <span class="mr-3">💬</span>
+                                                    <span>Messages</span>
+                                                </a>
+                                                <a class="group flex items-center px-4 py-3 text-sm text-gray-700 transition-colors duration-150 hover:bg-gray-50"
+                                                    href="/profile" role="menuitem" tabindex="-1">
+                                                    <span class="mr-3">⚙️</span>
+                                                    <span>Settings</span>
+                                                </a>
+                                                @if (Auth::user()->is_admin ?? false)
+                                                    <a class="group flex items-center px-4 py-3 text-sm text-gray-700 transition-colors duration-150 hover:bg-gray-50"
+                                                        href="/admin" role="menuitem" tabindex="-1">
+                                                        <span class="mr-3">🛡️</span>
+                                                        <span>Admin Panel</span>
+                                                    </a>
+                                                @endif
+                                                <div class="my-1 border-t border-gray-200"></div>
+                                                <form class="block" method="POST" action="/logout">
+                                                    @csrf
+                                                    <button
+                                                        class="group flex w-full items-center px-4 py-3 text-left text-sm text-red-600 transition-colors duration-150 hover:bg-red-50"
+                                                        type="submit" role="menuitem" tabindex="-1">
+                                                        <span class="mr-3">🚪</span>
+                                                        <span>Sign out</span>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
                                     @else
-                                        <div class="flex items-center space-x-4">
-                                            <a class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:text-white"
+                                        <div class="flex items-center space-x-3">
+                                            <a class="rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors duration-150 hover:text-white"
                                                 href="/login">Login</a>
-                                            <a class="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                                            <a class="rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white shadow-md transition-all duration-150 hover:scale-105 hover:shadow-lg"
                                                 href="/register">Register</a>
                                         </div>
                                     @endauth
@@ -100,18 +198,19 @@
                             <!-- Mobile menu button -->
                             <button
                                 class="focus:outline-hidden relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                                type="button" aria-controls="mobile-menu" aria-expanded="false">
+                                id="mobile-menu-button" type="button" aria-controls="mobile-menu"
+                                aria-expanded="false">
                                 <span class="absolute -inset-0.5"></span>
                                 <span class="sr-only">Open main menu</span>
                                 <!-- Menu open: "hidden", Menu closed: "block" -->
-                                <svg class="block size-6" data-slot="icon" aria-hidden="true" fill="none"
-                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <svg class="block size-6" id="menu-open-icon" data-slot="icon" aria-hidden="true"
+                                    fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                                 </svg>
                                 <!-- Menu open: "block", Menu closed: "hidden" -->
-                                <svg class="hidden size-6" data-slot="icon" aria-hidden="true" fill="none"
-                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <svg class="hidden size-6" id="menu-close-icon" data-slot="icon" aria-hidden="true"
+                                    fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                                 </svg>
                             </button>
@@ -120,29 +219,77 @@
                 </div>
 
                 <!-- Mobile menu, show/hide based on menu state. -->
-                <div class="md:hidden" id="mobile-menu">
+                <div class="hidden md:hidden" id="mobile-menu">
                     <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-                        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                        <a class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
-                            href="/" aria-current="page">Home</a>
-                        <a class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                        <a class="{{ request()->is('/') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} block rounded-md px-3 py-2 text-base font-medium"
+                            href="/">Home</a>
+                        <a class="{{ request()->is('about') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} block rounded-md px-3 py-2 text-base font-medium"
                             href="/about">About</a>
-                        <a class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                        <a class="{{ request()->is('contact') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} block rounded-md px-3 py-2 text-base font-medium"
                             href="/contact">Contact</a>
+                        <a class="{{ request()->is('job*') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} block rounded-md px-3 py-2 text-base font-medium"
+                            href="/job">Jobs</a>
+                        @auth
+                            <a class="{{ request()->is('messages*') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} block rounded-md px-3 py-2 text-base font-medium"
+                                href="/messages">Messages</a>
+                            @if (Auth::user()->is_admin ?? false)
+                                <a class="{{ request()->is('admin*') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} block rounded-md px-3 py-2 text-base font-medium"
+                                    href="/admin">Admin Panel</a>
+                            @endif
+                        @endauth
                     </div>
                     <div class="border-t border-gray-700 pb-3 pt-4">
                         @auth
                             <div class="flex items-center px-5">
                                 <div class="shrink-0">
-                                    <img class="size-10 rounded-full"
-                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                        alt="" />
+                                    <div
+                                        class="flex size-10 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-xl shadow-md">
+                                        <span class="text-white">
+                                            @php
+                                                $userEmojis = [
+                                                    '👤',
+                                                    '😊',
+                                                    '🚀',
+                                                    '💼',
+                                                    '🌟',
+                                                    '🎯',
+                                                    '💡',
+                                                    '🔥',
+                                                    '⚡',
+                                                    '🎨',
+                                                    '🌈',
+                                                    '🦄',
+                                                    '🎭',
+                                                    '🎪',
+                                                    '🎮',
+                                                    '🎲',
+                                                    '🎯',
+                                                    '🔮',
+                                                    '🎊',
+                                                    '🎉',
+                                                ];
+                                                $userEmail = Auth::user()->email ?? 'user@example.com';
+                                                $emojiIndex = abs(crc32($userEmail)) % count($userEmojis);
+                                                echo $userEmojis[$emojiIndex];
+                                            @endphp
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="ml-3">
-                                    <div class="text-base/5 font-medium text-white">{{ Auth::user()->name ?? 'User' }}
+                                    <div class="text-base/5 font-medium text-white">
+                                        {{ Auth::user()->full_name ?? (Auth::user()->name ?? 'User') }}
                                     </div>
                                     <div class="text-sm font-medium text-gray-400">
-                                        {{ Auth::user()->email ?? 'user@example.com' }}</div>
+                                        {{ Auth::user()->email ?? 'user@example.com' }}
+                                    </div>
+                                    @if (Auth::user()->is_admin ?? false)
+                                        <div class="mt-1">
+                                            <span
+                                                class="inline-flex items-center rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-800">
+                                                👑 Admin
+                                            </span>
+                                        </div>
+                                    @endif
                                 </div>
                                 <button
                                     class="focus:outline-hidden relative ml-auto shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -157,26 +304,31 @@
                                 </button>
                             </div>
                             <div class="mt-3 space-y-1 px-2">
-                                <a class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                                    href="#">Your Profile</a>
-                                <a class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                                    href="/profile">Settings</a>
-                                <form class="inline" method="POST" action="{{ route('logout') }}">
+                                <a class="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                                    href="#">
+                                    <span class="mr-3">👤</span>
+                                    <span>Your Profile</span>
+                                </a>
+                                <a class="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                                    href="/profile">
+                                    <span class="mr-3">⚙️</span>
+                                    <span>Settings</span>
+                                </a>
+                                <form class="inline" method="POST" action="/logout">
                                     @csrf
                                     <button
-                                        class="block w-full rounded-md px-3 py-2 text-left text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                                        type="submit">Sign out</button>
+                                        class="flex w-full items-center rounded-md px-3 py-2 text-left text-base font-medium text-red-400 hover:bg-red-900 hover:text-red-300"
+                                        type="submit">
+                                        <span class="mr-3">🚪</span>
+                                        <span>Sign out</span>
+                                    </button>
                                 </form>
                             </div>
                         @else
                             <div class="flex items-center px-5">
                                 <div class="shrink-0">
-                                    <div class="flex size-10 items-center justify-center rounded-full bg-gray-600">
-                                        <svg class="size-6 text-gray-400" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
+                                    <div class="flex size-10 items-center justify-center rounded-full bg-gray-600 text-lg">
+                                        <span>👤</span>
                                     </div>
                                 </div>
                                 <div class="ml-3">
@@ -185,10 +337,16 @@
                                 </div>
                             </div>
                             <div class="mt-3 space-y-1 px-2">
-                                <a class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                                    href="/login">Login</a>
-                                <a class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                                    href="/register">Register</a>
+                                <a class="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                                    href="/login">
+                                    <span class="mr-3">🔐</span>
+                                    <span>Login</span>
+                                </a>
+                                <a class="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                                    href="/register">
+                                    <span class="mr-3">📝</span>
+                                    <span>Register</span>
+                                </a>
                             </div>
                         @endauth
                     </div>
@@ -208,45 +366,95 @@
         </div>
 
         <script>
-            // Profile dropdown functionality - simplified for CSS hover
+            // Profile dropdown functionality
             document.addEventListener('DOMContentLoaded', function() {
                 const userMenuButton = document.getElementById('user-menu-button');
                 const userMenu = document.getElementById('user-menu');
+                const mobileMenuButton = document.getElementById('mobile-menu-button');
+                const mobileMenu = document.getElementById('mobile-menu');
+                const menuOpenIcon = document.getElementById('menu-open-icon');
+                const menuCloseIcon = document.getElementById('menu-close-icon');
 
+                // Profile dropdown functionality
                 if (userMenuButton && userMenu) {
-                    // Only handle click events for accessibility
+                    // Handle click events for accessibility
                     userMenuButton.addEventListener('click', function(e) {
                         e.stopPropagation();
-                        toggleDropdown();
+                        toggleUserDropdown();
                     });
 
                     // Close dropdown when clicking outside
                     document.addEventListener('click', function(e) {
                         if (!userMenu.closest('.group').contains(e.target)) {
-                            hideDropdown();
+                            hideUserDropdown();
                         }
                     });
 
-                    function toggleDropdown() {
+                    function toggleUserDropdown() {
                         const isVisible = !userMenu.classList.contains('opacity-0');
                         if (isVisible) {
-                            hideDropdown();
+                            hideUserDropdown();
                         } else {
-                            showDropdown();
+                            showUserDropdown();
                         }
                     }
 
-                    function showDropdown() {
+                    function showUserDropdown() {
                         userMenu.classList.remove('opacity-0', 'invisible');
                         userMenu.classList.add('opacity-100', 'visible');
                         userMenuButton.setAttribute('aria-expanded', 'true');
                     }
 
-                    function hideDropdown() {
+                    function hideUserDropdown() {
                         userMenu.classList.add('opacity-0', 'invisible');
                         userMenu.classList.remove('opacity-100', 'visible');
                         userMenuButton.setAttribute('aria-expanded', 'false');
                     }
+                }
+
+                // Mobile menu functionality
+                if (mobileMenuButton && mobileMenu) {
+                    mobileMenuButton.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        toggleMobileMenu();
+                    });
+
+                    function toggleMobileMenu() {
+                        const isVisible = !mobileMenu.classList.contains('hidden');
+                        if (isVisible) {
+                            hideMobileMenu();
+                        } else {
+                            showMobileMenu();
+                        }
+                    }
+
+                    function showMobileMenu() {
+                        mobileMenu.classList.remove('hidden');
+                        menuOpenIcon.classList.add('hidden');
+                        menuCloseIcon.classList.remove('hidden');
+                        mobileMenuButton.setAttribute('aria-expanded', 'true');
+                    }
+
+                    function hideMobileMenu() {
+                        mobileMenu.classList.add('hidden');
+                        menuOpenIcon.classList.remove('hidden');
+                        menuCloseIcon.classList.add('hidden');
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
+                    }
+
+                    // Close mobile menu when clicking outside
+                    document.addEventListener('click', function(e) {
+                        if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                            hideMobileMenu();
+                        }
+                    });
+
+                    // Close mobile menu when window is resized to desktop
+                    window.addEventListener('resize', function() {
+                        if (window.innerWidth >= 768) { // md breakpoint
+                            hideMobileMenu();
+                        }
+                    });
                 }
             });
         </script>
