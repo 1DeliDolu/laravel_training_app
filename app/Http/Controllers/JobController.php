@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use App\Jobs\TranslateJob;
+use App\Mail\JobUpdated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
@@ -43,11 +44,15 @@ class JobController extends Controller
     {
         request()->validate([
             'title' => ['required', 'min:3'],
+            'description' => ['required'],
+            'company' => ['required'],
             'salary' => ['required']
         ]);
 
         $job = Job::create([
             'title' => request('title'),
+            'description' => request('description'),
+            'company' => request('company'),
             'salary' => request('salary'),
             'employer_id' => 1
         ]);
@@ -95,9 +100,26 @@ class JobController extends Controller
             'salary' => ['required']
         ]);
 
+        // Store original description to check if it changed
+        $originalDescription = $job->description;
+
         $job->update($request->all());
 
-        return redirect('/jobs/' . $job->id)->with('success', 'Job updated successfully!');
+        // If description changed, dispatch new translation job
+        if ($originalDescription !== $job->description) {
+            // Clear old translation
+            $job->update(['translated_description' => null]);
+
+            // Dispatch new translation job
+            TranslateJob::dispatch($job);
+        }
+
+        // Send email notification to the authenticated user about the update
+        if (Auth::check()) {
+            Mail::to(Auth::user()->email)->queue(new \App\Mail\JobUpdated($job, Auth::user()->email));
+        }
+
+        return redirect('/jobs/' . $job->id)->with('success', 'Job updated successfully! Email notification sent and translation queued if needed.');
     }
 
     /**

@@ -101,8 +101,8 @@ Route::middleware('auth')->group(function () {
     })->name('profile.update');
 });
 
-// Job Management Group (User Access)
-Route::prefix('jobs')->name('jobs.')->middleware('user')->group(function () {
+// Job Management Group (Authenticated User Access)
+Route::prefix('jobs')->name('jobs.')->middleware('auth')->group(function () {
     Route::get('/', [JobController::class, 'index'])->name('index');
     Route::get('/create', [JobController::class, 'create'])->name('create');
     Route::post('/', [JobController::class, 'store'])->name('store');

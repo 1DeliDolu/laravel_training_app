@@ -12,7 +12,7 @@
 
         <x-form-field name="title" type="text" label="Job Title" required placeholder="Enter job title" />
 
-        <x-form-field name="description" type="textarea" label="Description" rows="4"
+        <x-form-field name="description" type="textarea" label="Description" required rows="4"
             placeholder="Enter job description" />
 
         <x-form-field name="company" type="text" label="Company" required placeholder="Enter company name" />

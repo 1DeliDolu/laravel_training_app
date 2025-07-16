@@ -24,17 +24,24 @@ class TranslateJob implements ShouldQueue
      */
     public function handle(): void
     {
+        logger()->info('TranslateJob started', [
+            'job_id' => $this->jobListing->id,
+            'title' => $this->jobListing->title,
+            'description_length' => strlen($this->jobListing->description),
+        ]);
+
         $translated = AI::translate($this->jobListing->description, 'en', 'fr');
 
-        // Çeviri sonucunu kaydet (translated_description alanı varsa)
+        // Çeviri sonucunu kaydet
         $this->jobListing->translated_description = $translated;
         $this->jobListing->save();
 
-        logger()->info('TranslateJob is being handled.', [
+        logger()->info('TranslateJob completed', [
             'job_id' => $this->jobListing->id,
             'title' => $this->jobListing->title,
             'original_description' => $this->jobListing->description,
             'translated_description' => $translated,
+            'translation_success' => !str_contains($translated, 'Translation failed'),
         ]);
     }
 }

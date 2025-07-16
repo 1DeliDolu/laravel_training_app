@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('company')->nullable();
             $table->string('salary')->nullable();
+            $table->unsignedBigInteger('employer_id')->nullable();
             $table->timestamps();
         });
     }
