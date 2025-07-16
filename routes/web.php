@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentListController;
 use App\Http\Controllers\RegisteredUserController;
+use App\Jobs\TranslateJob;
 
 // Public Pages Group
 Route::prefix('')->group(function () {
@@ -136,4 +137,9 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
 });
 
 // Mail Routes
-Route::get('test', [JobController::class, 'test'])->name('test.email');
+//Route::get('test', [JobController::class, 'test'])->name('test.email');
+Route::get('test', function () {
+    $job = Job::first();
+    TranslateJob::dispatch($job);
+    return 'Job dispatched!';
+});

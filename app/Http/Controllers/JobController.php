@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Jobs\TranslateJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
@@ -51,12 +52,15 @@ class JobController extends Controller
             'employer_id' => 1
         ]);
 
+        // Dispatch translation job to queue
+        TranslateJob::dispatch($job);
+
         // Send email notification to the authenticated user who created the job
         if (Auth::check()) {
-            Mail::to(Auth::user()->email)->send(new \App\Mail\JobPosted($job));
+            Mail::to(Auth::user()->email)->queue(new \App\Mail\JobPosted($job, Auth::user()->email));
         }
 
-        return redirect('/jobs')->with('success', 'Job created successfully and email notification sent!');
+        return redirect('/jobs')->with('success', 'Job created successfully! Translation and email queued.');
     }
 
     /**
